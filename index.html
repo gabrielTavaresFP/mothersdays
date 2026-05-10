@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Dia das Mães 💐</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose: #D4527E;
+    --rose-light: #F4C0D1;
+    --rose-pale: #FBEAF0;
+    --gold: #BA7517;
+    --gold-light: #FAC775;
+    --cream: #FDF8F3;
+    --dark: #2C1A1A;
+    --muted: #7a5c5c;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    overflow-x: hidden;
+  }
+
+  /* === HERO === */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 30% 50%, #f9e4ec 0%, var(--cream) 60%);
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .petals-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .petal {
+    position: absolute;
+    font-size: 1.4rem;
+    opacity: 0;
+    animation: fall linear infinite;
+    user-select: none;
+  }
+
+  @keyframes fall {
+    0%   { transform: translateY(-60px) rotate(0deg); opacity: 0.8; }
+    80%  { opacity: 0.6; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  .hero-sub {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    line-height: 1.1;
+    color: var(--dark);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 420px;
+    margin: 1.5rem auto 2.5rem;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .scroll-hint {
+    opacity: 0;
+    animation: fadeUp 0.8s 1.4s forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+  }
+
+  .scroll-hint span { animation: bounce 1.5s ease-in-out infinite; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(6px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === CARTÃO INTERATIVO === */
+  .section {
+    padding: 5rem 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-sub {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+  }
+
+  /* === CARD 3D === */
+  .card-scene {
+    perspective: 1000px;
+    width: 340px;
+    height: 460px;
+    margin: 0 auto 1rem;
+    cursor: pointer;
+  }
+
+  .card-3d {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-3d.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 20px 60px rgba(212,82,126,0.15), 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  .card-front {
+    background: linear-gradient(145deg, #fff5f8, #fff);
+    border: 1.5px solid var(--rose-light);
+    text-align: center;
+  }
+
+  .card-back {
+    background: linear-gradient(145deg, #fff8f0, #fffcf5);
+    border: 1.5px solid var(--gold-light);
+    transform: rotateY(180deg);
+    text-align: center;
+  }
+
+  .card-flower {
+    font-size: 5rem;
+    margin-bottom: 1.2rem;
+    animation: sway 3s ease-in-out infinite;
+  }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(-3deg); }
+    50%       { transform: rotate(3deg); }
+  }
+
+  .card-front-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--rose);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-front-hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--rose-light);
+    padding-top: 1rem;
+    width: 100%;
+  }
+
+  .card-back-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--dark);
+    margin-bottom: 1.5rem;
+  }
+
+  .card-back-signature {
+    font-size: 0.85rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .card-back-deco {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-hint-back {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* === MEMÓRIAS === */
+  .memories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .memory-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.8rem 1.5rem;
+    border: 1px solid #f0dce5;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: default;
+  }
+
+  .memory-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(212,82,126,0.13);
+  }
+
+  .memory-icon { font-size: 2rem; margin-bottom: 1rem; }
+
+  .memory-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .memory-text { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+  /* === MENSAGEM PERSONALIZADA === */
+  .message-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: 1px solid #f0dce5;
+    box-shadow: 0 8px 32px rgba(212,82,126,0.08);
+  }
+
+  .msg-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 0.5rem;
+  }
+
+  textarea {
+    width: 100%;
+    border: 1.5px solid #f0dce5;
+    border-radius: 10px;
+    padding: 1rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--dark);
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--cream);
+  }
+
+  textarea:focus { border-color: var(--rose); }
+
+  .btn-rose {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 2rem;
+    background: var(--rose);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-rose:hover { background: #b8446c; transform: translateY(-2px); }
+  .btn-rose:active { transform: scale(0.97); }
+
+  .preview-msg {
+    display: none;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--rose-pale);
+    border-radius: 12px;
+    border-left: 4px solid var(--rose);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--dark);
+    line-height: 1.8;
+    font-size: 1.05rem;
+  }
+
+  .preview-msg.show { display: block; animation: fadeUp 0.5s forwards; }
+
+  /* === LINHA DO TEMPO === */
+  .timeline { position: relative; padding: 1rem 0; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--rose-light), var(--gold-light));
+    transform: translateX(-50%);
+  }
+
+  .tl-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: calc(50% + 2rem);
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+
+  .tl-item:nth-child(even) {
+    justify-content: flex-start;
+    padding-right: 0;
+    padding-left: calc(50% + 2rem);
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: 50%;
+    top: 1rem;
+    transform: translateX(-50%);
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--rose);
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 0 2px var(--rose-light);
+  }
+
+  .tl-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    max-width: 260px;
+    border: 1px solid #f0dce5;
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tl-card strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--dark);
+    margin-bottom: 0.3rem;
+  }
+
+  /* === CONTADOR === */
+  .counter-wrap {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+  }
+
+  .counter-unit {
+    text-align: center;
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.2rem 1.8rem;
+    border: 1px solid #f0dce5;
+    min-width: 90px;
+  }
+
+  .counter-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    color: var(--rose);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .counter-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; margin-top: 4px; }
+
+  /* === FOOTER === */
+  footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    border-top: 1px solid #f0dce5;
+  }
+
+  footer .big-heart {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    animation: heartbeat 1.2s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    30%      { transform: scale(1.18); }
+    60%      { transform: scale(1.05); }
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 600px) {
+    .timeline::before { left: 16px; }
+    .tl-item, .tl-item:nth-child(even) {
+      justify-content: flex-start;
+      padding-right: 0;
+      padding-left: 3rem;
+    }
+    .tl-dot { left: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CHUVA DE PÉTALAS -->
+<div class="petals-bg" id="petals"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-sub">✦ 11 de maio de 2025 ✦</p>
+    <h1 class="hero-title">Feliz Dia<br>das <em>Mães</em></h1>
+    <p class="hero-desc">Para aquela que nos ensinou que o amor não precisa de palavras — ele simplesmente existe, todos os dias.</p>
+    <div class="scroll-hint">
+      <span>↓</span>
+      <small>role para baixo</small>
+    </div>
+  </div>
+</section>
+
+<!-- CARTÃO INTERATIVO -->
+<section class="section">
+  <p class="section-label">✿ Um presente especial</p>
+  <h2 class="section-title">Abra o cartão</h2>
+  <p class="section-sub">Clique no cartão para revelar uma mensagem com amor</p>
+
+  <div class="card-scene" id="cardScene">
+    <div class="card-3d" id="card3d">
+      <div class="card-face card-front">
+        <div class="card-flower">🌸</div>
+        <div class="card-front-title">Para a Minha Mãe</div>
+        <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;">Com todo o amor que existe neste mundo e no próximo.</p>
+        <div class="card-front-hint">🖱 clique para abrir</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-back-deco">💌</div>
+        <p class="card-back-quote">"Mãe é o nome de Deus nos lábios e corações de todas as crianças."</p>
+        <div class="card-back-signature">— William Makepeace Thackeray</div>
+        <div class="card-hint-back">🖱 clique para fechar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTADOR - dias de amor -->
+<section style="background:#fff4f8; padding:4rem 1.5rem; text-align:center;">
+  <p class="section-label">♡ Quantos dias de amor</p>
+  <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:0.5rem;">Ela cuida de você há...</h2>
+  <p style="color:var(--muted);font-size:0.9rem;margin-bottom:2rem;">Informe seu aniversário para calcular</p>
+  <div style="display:flex;gap:0.5rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+    <input type="date" id="birthDate" style="padding:0.6rem 1rem;border-radius:8px;border:1.5px solid #f0dce5;font-family:'Lato',sans-serif;font-size:0.95rem;outline:none;" />
+    <button class="btn-rose" onclick="calcDays()">Calcular</button>
+  </div>
+  <div class="counter-wrap" id="counterWrap" style="display:none;">
+    <div class="counter-unit">
+      <div class="counter-num" id="cYears">0</div>
+      <div class="counter-label">ANOS</div>
+    </div>
+    <div class="counter-unit">
+      <div class="counter-num" id="cMonths">0</div>
+      <div class="counter-label">MESES</div>
+    </div>
+    <div class="counter-unit">
+      <div class="counter-num" id="cDays">0</div>
+      <div class="counter-label">DIAS</div>
+    </div>
+    <div class="counter-unit">
+      <div class="counter-num" id="cHugs">0</div>
+      <div class="counter-label">ABRAÇOS ❤️</div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMÓRIAS -->
+<section class="section">
+  <p class="section-label">☁ Pequenos momentos</p>
+  <h2 class="section-title">As memórias que ficam</h2>
+  <p class="section-sub">Cada detalhe que a sua mãe fez por você</p>
+  <div class="memories-grid">
+    <div class="memory-card">
+      <div class="memory-icon">🍲</div>
+      <div class="memory-title">A comida da mamãe</div>
+      <p class="memory-text">Aquele prato especial que só ela sabe fazer e que cheira como lar, como segurança, como amor.</p>
+    </div>
+    <div class="memory-card">
+      <div class="memory-icon">🩹</div>
+      <div class="memory-title">Os curativos dela</div>
+      <p class="memory-text">Toda vez que você se machucava, ela estava lá — com um sopro e um beijo que curava qualquer dor.</p>
+    </div>
+    <div class="memory-card">
+      <div class="memory-icon">🌙</div>
+      <div class="memory-title">As noites de conversa</div>
+      <p class="memory-text">Histórias antes de dormir, conselhos trocados em voz baixa, e a sensação de que tudo ficaria bem.</p>
+    </div>
+    <div class="memory-card">
+      <div class="memory-icon">📸</div>
+      <div class="memory-title">As fotos que ela guardou</div>
+      <p class="memory-text">Uma coleção de momentos registrados com cuidado porque, para ela, cada fase sua era única e preciosa.</p>
+    </div>
+    <div class="memory-card">
+      <div class="memory-icon">🎓</div>
+      <div class="memory-title">O orgulho nos olhos dela</div>
+      <p class="memory-text">Aquele sorriso que ela não conseguia esconder toda vez que você conquistava algo — grande ou pequeno.</p>
+    </div>
+    <div class="memory-card">
+      <div class="memory-icon">🤗</div>
+      <div class="memory-title">Os abraços dela</div>
+      <p class="memory-text">Aquele lugar no mundo onde você sempre se sente seguro, acolhido e amado sem precisar pedir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LINHA DO TEMPO -->
+<section style="background:#fff4f8; padding:5rem 1.5rem;">
+  <div style="max-width:700px;margin:0 auto;">
+    <p class="section-label" style="text-align:center;">⏳ Uma vida de amor</p>
+    <h2 class="section-title">A jornada da mamãe</h2>
+    <p class="section-sub">Uma mãe se transforma a cada fase da sua vida</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <strong>🍼 O começo de tudo</strong>
+          Ela escolheu abrir mão do sono, do tempo e do conforto para te dar o mundo inteiro.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <strong>🧒 A infância</strong>
+          Cada pedrinha que você tropeçava, ela estava ali para te levantar e te ensinar a continuar.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <strong>📚 A adolescência</strong>
+          Mesmo quando você achava que não precisava dela, ela estava ao fundo — torcendo, rezando, esperando.
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <strong>🌿 O presente</strong>
+          Hoje você percebe o tamanho do amor que ela sempre teve — e diz, finalmente, obrigado.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENSAGEM PERSONALIZADA -->
+<section class="section">
+  <p class="section-label">✍ Escreva para ela</p>
+  <h2 class="section-title">Sua mensagem especial</h2>
+  <p class="section-sub">Escreva algo do coração e veja como fica num cartão bonito</p>
+  <div class="message-box">
+    <p class="msg-label">Sua mensagem</p>
+    <textarea id="msgInput" placeholder="Mãe, quero te dizer que..."></textarea>
+    <button class="btn-rose" onclick="showPreview()">💌 Gerar cartão</button>
+    <div class="preview-msg" id="previewMsg"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="big-heart">💗</span>
+  Feito com amor, para todas as mães do mundo.<br>
+  <small style="opacity:0.6;">Porque um dia por ano é pouco — mas hoje é especial.</small>
+</footer>
+
+<script>
+// === PÉTALAS ===
+const petalEmojis = ['🌸','🌺','🌼','🌹','✿','💮'];
+const container = document.getElementById('petals');
+
+function createPetal() {
+  const p = document.createElement('span');
+  p.className = 'petal';
+  p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+  p.style.left = Math.random() * 100 + 'vw';
+  p.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+  const dur = 6 + Math.random() * 8;
+  p.style.animationDuration = dur + 's';
+  p.style.animationDelay = Math.random() * 4 + 's';
+  container.appendChild(p);
+  setTimeout(() => p.remove(), (dur + 4) * 1000);
+}
+
+setInterval(createPetal, 400);
+for (let i = 0; i < 8; i++) createPetal();
+
+// === CARTÃO 3D ===
+document.getElementById('cardScene').addEventListener('click', () => {
+  document.getElementById('card3d').classList.toggle('flipped');
+});
+
+// === CONTADOR ===
+function calcDays() {
+  const val = document.getElementById('birthDate').value;
+  if (!val) return;
+  const birth = new Date(val);
+  const now = new Date();
+  if (birth > now) return;
+
+  let years = now.getFullYear() - birth.getFullYear();
+  let months = now.getMonth() - birth.getMonth();
+  let days = now.getDate() - birth.getDate();
+
+  if (days < 0) { months--; days += 30; }
+  if (months < 0) { years--; months += 12; }
+
+  const totalDays = Math.floor((now - birth) / 86400000);
+
+  animateNum('cYears', years);
+  animateNum('cMonths', months);
+  animateNum('cDays', days);
+  animateNum('cHugs', totalDays * 3);
+
+  const wrap = document.getElementById('counterWrap');
+  wrap.style.display = 'flex';
+  wrap.style.animation = 'fadeUp 0.6s forwards';
+}
+
+function animateNum(id, target) {
+  const el = document.getElementById(id);
+  let cur = 0;
+  const step = Math.ceil(target / 40);
+  const timer = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur.toLocaleString('pt-BR');
+    if (cur >= target) clearInterval(timer);
+  }, 30);
+}
+
+// === PREVIEW MENSAGEM ===
+function showPreview() {
+  const text = document.getElementById('msgInput').value.trim();
+  const el = document.getElementById('previewMsg');
+  if (!text) { el.innerHTML = ''; el.classList.remove('show'); return; }
+  el.innerHTML = '🌸 &ldquo;' + text + '&rdquo; 🌸';
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+}
+</script>
+</body>
+</html>
