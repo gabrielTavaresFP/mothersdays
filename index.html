@@ -162,6 +162,8 @@
     height: 460px;
     margin: 0 auto 1rem;
     cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .card-3d {
@@ -463,15 +465,75 @@
     60%      { transform: scale(1.05); }
   }
 
+  /* === CALC ROW === */
+  .calc-row {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
   /* === RESPONSIVE === */
   @media (max-width: 600px) {
-    .timeline::before { left: 16px; }
-    .tl-item, .tl-item:nth-child(even) {
+    /* Hero */
+    .hero { padding: 2rem 1.2rem; min-height: 100svh; }
+    .hero-desc { font-size: 0.95rem; margin: 1.2rem auto 2rem; }
+
+    /* Sections */
+    .section { padding: 3.5rem 1.2rem; }
+    .section-sub { font-size: 0.88rem; margin-bottom: 2rem; }
+
+    /* Card 3D — fit screen width */
+    .card-scene {
+      width: min(300px, 88vw);
+      height: min(420px, 110vw);
+    }
+    .card-face { padding: 2rem 1.5rem; }
+    .card-flower { font-size: 3.8rem; }
+    .card-front-title { font-size: 1.35rem; }
+    .card-back-quote { font-size: 0.98rem; }
+    .card-front-hint, .card-hint-back { font-size: 0.72rem; }
+
+    /* Counter section */
+    .counter-wrap {
+      gap: 0.75rem;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+    }
+    .counter-unit { padding: 1rem 0.8rem; min-width: unset; }
+    .counter-num { font-size: 1.8rem; }
+
+    /* Date input + button stack vertically */
+    .calc-row { flex-direction: column; align-items: stretch; max-width: 280px; margin: 0 auto 1.5rem; }
+    #birthDate { width: 100%; font-size: 1rem; padding: 0.7rem 1rem; }
+    .btn-rose { width: 100%; text-align: center; }
+
+    /* Memories grid — single column on very small, 2-col on medium */
+    .memories-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .memory-card { padding: 1.4rem 1.2rem; }
+
+    /* Timeline — all left-aligned */
+    .timeline::before { left: 14px; }
+    .tl-item,
+    .tl-item:nth-child(even) {
       justify-content: flex-start;
       padding-right: 0;
-      padding-left: 3rem;
+      padding-left: 2.6rem;
     }
-    .tl-dot { left: 16px; }
+    .tl-dot { left: 14px; transform: translateX(-50%); }
+    .tl-card { max-width: 100%; font-size: 0.85rem; padding: 1rem 1.1rem; }
+
+    /* Message box */
+    .message-box { padding: 1.5rem 1.2rem; }
+
+    /* Footer */
+    footer { padding: 2.5rem 1rem; font-size: 0.8rem; }
+  }
+
+  @media (min-width: 420px) and (max-width: 600px) {
+    .memories-grid { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
@@ -505,13 +567,13 @@
         <div class="card-flower">🌸</div>
         <div class="card-front-title">Para a Minha Mãe</div>
         <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;">Com todo o amor que existe neste mundo e no próximo.</p>
-        <div class="card-front-hint">🖱 clique para abrir</div>
+        <div class="card-front-hint">👆 toque para abrir</div>
       </div>
       <div class="card-face card-back">
         <div class="card-back-deco">💌</div>
         <p class="card-back-quote">"Mãe é o nome de Deus nos lábios e corações de todas as crianças."</p>
         <div class="card-back-signature">— William Makepeace Thackeray</div>
-        <div class="card-hint-back">🖱 clique para fechar</div>
+        <div class="card-hint-back">👆 toque para fechar</div>
       </div>
     </div>
   </div>
@@ -522,7 +584,7 @@
   <p class="section-label">♡ Quantos dias de amor</p>
   <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:0.5rem;">Ela cuida de você há...</h2>
   <p style="color:var(--muted);font-size:0.9rem;margin-bottom:2rem;">Informe seu aniversário para calcular</p>
-  <div style="display:flex;gap:0.5rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+  <div class="calc-row">
     <input type="date" id="birthDate" style="padding:0.6rem 1rem;border-radius:8px;border:1.5px solid #f0dce5;font-family:'Lato',sans-serif;font-size:0.95rem;outline:none;" />
     <button class="btn-rose" onclick="calcDays()">Calcular</button>
   </div>
